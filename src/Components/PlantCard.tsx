@@ -3,9 +3,11 @@ import type { Plant } from "../types";
 
 interface PlantCardProps {
   plant: Plant;
+  onDelete?: (id: number) => void;
 }
 
 const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
+  
   // Light icons
   const lightIcons: Record<string, string> = {
     Low: "🌑",
