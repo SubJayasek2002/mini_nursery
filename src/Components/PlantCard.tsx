@@ -6,8 +6,7 @@ interface PlantCardProps {
   onDelete?: (id: number) => void;
 }
 
-const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
-  
+const PlantCard: React.FC<PlantCardProps> = ({ plant, onDelete }) => {
   // Light icons
   const lightIcons: Record<string, string> = {
     Low: "🌑",
@@ -48,13 +47,20 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
           </div>
         </div>
 
-        {/* View & Buy Buttons */}
+        {/* New Buttons */}
         <div className="d-flex gap-2">
-          <button className="btn btn-secondary" disabled>
-            View
+          <button
+            className="btn btn-primary"
+            onClick={() => alert(`Viewing: ${plant.name}`)}
+          >
+            View Details
           </button>
-          <button className="btn btn-success" disabled>
-            Buy(UI-Only)
+
+          <button
+            className="btn btn-danger"
+            onClick={() => onDelete?.(plant.id)}
+          >
+            Remove
           </button>
         </div>
       </div>
