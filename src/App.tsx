@@ -18,12 +18,22 @@ const App: React.FC<AppProps> = ({ plants }) => {
     const [selectedId, setSelectedId] = useState<number | null>(
         plants.length > 0 ? plants[0].id : null
     );
+    const [plantList, setPlantList] = useState<Plant[]>(plants);
 
-    const selectedPlant = plants.find((p) => p.id === selectedId);
+    const selectedPlant = plantList.find((p) => p.id === selectedId);
 
     // --- Handle plant selection ---
     const handleSelectPlant = (id: number) => {
         setSelectedId(id);
+    };
+
+    // --- Handle adding new plant ---
+    const handleAddPlant = (newPlant: Omit<Plant, 'id'>) => {
+        const plantWithId: Plant = {
+            ...newPlant,
+            id: Math.max(...plantList.map(p => p.id), 0) + 1,
+        };
+        setPlantList([...plantList, plantWithId]);
     };
 
     return (
@@ -56,7 +66,7 @@ const App: React.FC<AppProps> = ({ plants }) => {
                     <div className="col-md-4">
                         <h4 className="mb-3">Plant Catalog</h4>
                         <PlantList
-                            plants={plants}
+                            plants={plantList}
                             selectedId={selectedId}
                             onSelect={handleSelectPlant}
                         />
@@ -65,7 +75,7 @@ const App: React.FC<AppProps> = ({ plants }) => {
                     {/* Right Column: Plant Form + Featured Plant */}
                     <div className="col-md-8">
                         <div className="mb-4">
-                            <PlantForm />
+                            <PlantForm onAdd={handleAddPlant} />
                         </div>
 
                         <h4 className="mb-3">Featured Plant Details</h4>
